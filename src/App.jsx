@@ -1,5 +1,7 @@
 import React from 'react';
 import './assets/styles/style.css'
+import { AnswersList } from './components/index';
+import defaultDataset from './dataset';
 
 export default class App extends React.Component {
 
@@ -9,15 +11,29 @@ export default class App extends React.Component {
       answers: [],          // 回答コンポーネントに表示するデータ
       chat: [],              // チャットコンポーネントに表示するデータ
       currentId: "init",     // 現在の質問ID
-      dataset: {},           // 質問と回答のデータセット
+      dataset: defaultDataset,           // 質問と回答のデータセット
       open: false,          // 問い合わせフォーム用モーダルの開閉を管理  
     };
+  }
+
+  initAnswer = () => {
+    const initDataset = this.state.dataset[this.state.currentId]
+    const initAnswers = initDataset.answers;
+
+    this.setState({
+      answers: initAnswers
+    })
+  }
+
+  componentDidMount() {
+    this.initAnswer()
   }
 
   render() {
     return (
       <section className="c-section">
         <div className="c-box">
+          <AnswersList answers={this.state.answers} />
         </div>
       </section>
     );
